@@ -69,18 +69,33 @@ export function ChatPanel() {
         throw new Error(err.error || `HTTP ${resp.status}`)
       }
 
-      const data = await resp.json()
+      const rawText = await resp.text()
+      console.log('[TripAgent] Raw response length:', rawText.length)
+      let data: { text: string; actions: Action[] }
+      try {
+        const parsed = JSON.parse(rawText)
+        data = { text: parsed.text ?? '', actions: parsed.actions ?? [] }
+      } catch {
+        console.error('[TripAgent] JSON parse failed:', rawText.slice(0, 500))
+        throw new Error('Failed to parse agent response')
+      }
 
-      if (data.actions && data.actions.length > 0) {
-        for (const action of data.actions) {
-          dispatch(action)
+      const actions = data.actions
+      console.log('[TripAgent] Response:', data.text?.slice(0, 80), `| ${actions.length} actions`)
+      for (const action of actions) {
+        try {
+          console.log('[TripAgent] Dispatching:', action.type)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          dispatch(action as any)
+        } catch (e) {
+          console.error('[TripAgent] Dispatch failed:', action.type, e)
         }
       }
 
       setMessages(prev =>
         prev.map(m =>
           m.id === pendingMsg.id
-            ? { ...m, text: data.text, actions: data.actions, pending: false }
+            ? { ...m, text: data.text, actions, pending: false }
             : m
         )
       )
