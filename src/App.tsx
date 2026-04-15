@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTrip } from './context'
 import { Header } from './components/Header'
 import { Sidebar } from './components/Sidebar'
 import { MissionLaunch } from './components/MissionLaunch'
+import { ChatPanel, ChatToggle } from './components/ChatPanel'
 import { Setup } from './components/modules/Setup'
 import { Groups } from './components/modules/Groups'
 import { Routes } from './components/modules/Routes'
@@ -52,6 +54,7 @@ function ModulePanel() {
 
 export default function App() {
   const { state } = useTrip()
+  const [chatOpen, setChatOpen] = useState(false)
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
@@ -59,7 +62,9 @@ export default function App() {
       <div className="flex flex-1 min-h-0">
         <Sidebar />
         <ModulePanel />
+        <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} />
       </div>
+      <ChatToggle open={chatOpen} onToggle={() => setChatOpen(p => !p)} />
       <AnimatePresence>
         {state.activeModule === 'launch' && <MissionLaunch />}
       </AnimatePresence>
