@@ -23,12 +23,11 @@ export function Setup() {
   }
 
   return (
-    <div className="p-6 max-w-2xl">
+    <div className="p-4 md:p-6 max-w-2xl">
       <h2 className="text-base font-semibold text-ops-text mb-1">Trip Setup</h2>
       <p className="text-xs text-ops-muted mb-6">Configure the basics. Everything else follows from here.</p>
 
       <div className="space-y-5">
-        {/* Cover emoji */}
         <div>
           <label className="block text-xs font-medium text-ops-muted mb-2">Cover Emoji</label>
           <div className="flex flex-wrap gap-2">
@@ -36,10 +35,10 @@ export function Setup() {
               <button
                 key={e}
                 onClick={() => setForm(f => ({ ...f, coverEmoji: e }))}
-                className={`w-10 h-10 text-xl rounded-md border transition-colors
+                className={`w-11 h-11 text-xl rounded-lg transition-all
                   ${form.coverEmoji === e
-                    ? 'border-ops-accent bg-ops-accent/10'
-                    : 'border-ops-border hover:border-ops-muted'
+                    ? 'glass-card border-ops-accent/40 bg-ops-accent/10 scale-105'
+                    : 'glass-card hover:bg-white/[0.06]'
                   }`}
               >
                 {e}
@@ -66,7 +65,7 @@ export function Setup() {
           />
         </Field>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label="Start Date">
             <input
               type="date"
@@ -94,17 +93,14 @@ export function Setup() {
           />
         </Field>
 
-        <div className="flex items-center gap-3 pt-2">
-          <button
-            onClick={handleSave}
-            className="flex items-center gap-2 px-4 py-2 bg-ops-accent hover:bg-ops-accent-hover text-white text-sm font-medium rounded-md transition-colors"
-          >
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+          <button onClick={handleSave} className="glass-btn-accent flex items-center justify-center gap-2">
             <Save size={14} />
             {saved ? 'Saved!' : 'Save Changes'}
           </button>
           <button
             onClick={handleReset}
-            className="flex items-center gap-2 px-4 py-2 border border-ops-border text-ops-muted hover:text-ops-danger hover:border-ops-danger text-sm rounded-md transition-colors"
+            className="glass-btn flex items-center justify-center gap-2 text-ops-muted hover:text-ops-danger hover:border-ops-danger/30"
           >
             <RotateCcw size={14} />
             Reset Demo
@@ -119,7 +115,7 @@ function Field({ label, optional, children }: { label: string; optional?: boolea
   return (
     <div>
       <label className="block text-xs font-medium text-ops-muted mb-1.5">
-        {label} {optional && <span className="text-ops-border">(optional)</span>}
+        {label} {optional && <span className="text-white/10">(optional)</span>}
       </label>
       {children}
     </div>

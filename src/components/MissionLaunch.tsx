@@ -59,21 +59,21 @@ export function MissionLaunch() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+        className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-6"
         onClick={() => dispatch({ type: 'SET_MODULE', module: 'setup' })}
       >
         <motion.div
-          initial={{ scale: 0.92, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.92, opacity: 0 }}
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 40, opacity: 0 }}
           transition={{ type: 'spring', damping: 22, stiffness: 280 }}
-          className="bg-ops-surface border border-ops-border rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
+          className="glass-heavy w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] sm:max-h-[85vh] flex flex-col"
           onClick={e => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="px-6 py-5 border-b border-ops-border flex items-start justify-between">
+          <div className="px-5 py-4 sm:px-6 sm:py-5 border-b border-white/[0.06] flex items-start justify-between shrink-0">
             <div>
-              <div className="text-3xl mb-2">{setup.coverEmoji}</div>
+              <div className="text-2xl sm:text-3xl mb-2">{setup.coverEmoji}</div>
               <h2 className="text-lg font-bold text-ops-text">{setup.name}</h2>
               <p className="text-xs text-ops-muted mt-0.5">{setup.destination}</p>
               {setup.startDate && setup.endDate && (
@@ -84,77 +84,75 @@ export function MissionLaunch() {
             </div>
             <button
               onClick={() => dispatch({ type: 'SET_MODULE', module: 'setup' })}
-              className="text-ops-muted hover:text-ops-text transition-colors p-1"
+              className="touch-target text-ops-muted hover:text-ops-text transition-colors"
             >
               <X size={18} />
             </button>
           </div>
 
-          {/* Readiness */}
-          <div className="px-6 py-4">
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-xs font-semibold text-ops-muted uppercase tracking-wider">Mission Readiness</p>
-              <span className={`text-sm font-bold ${allGreen ? 'text-ops-accent' : 'text-ops-warning'}`}>
-                {readyCount}/{checks.length}
-              </span>
-            </div>
+          {/* Scrollable content */}
+          <div className="flex-1 overflow-y-auto">
+            {/* Readiness */}
+            <div className="px-5 sm:px-6 py-4">
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-xs font-semibold text-ops-muted uppercase tracking-wider">Mission Readiness</p>
+                <span className={`text-sm font-bold ${allGreen ? 'text-ops-accent' : 'text-ops-warning'}`}>
+                  {readyCount}/{checks.length}
+                </span>
+              </div>
 
-            {/* Progress bar */}
-            <div className="h-1.5 bg-ops-border rounded-full mb-5 overflow-hidden">
-              <motion.div
-                className={`h-full rounded-full ${allGreen ? 'bg-ops-accent' : 'bg-ops-warning'}`}
-                initial={{ width: 0 }}
-                animate={{ width: `${(readyCount / checks.length) * 100}%` }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-              />
-            </div>
+              {/* Progress bar */}
+              <div className="h-1.5 bg-white/[0.06] rounded-full mb-5 overflow-hidden">
+                <motion.div
+                  className={`h-full rounded-full ${allGreen ? 'bg-ops-accent' : 'bg-ops-warning'}`}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(readyCount / checks.length) * 100}%` }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                />
+              </div>
 
-            <div className="space-y-2.5">
-              {checks.map(check => (
-                <div key={check.label} className="flex items-start gap-3">
-                  <span className={check.ok ? 'text-ops-accent mt-0.5' : 'text-ops-muted mt-0.5'}>
-                    {check.ok
-                      ? <CheckCircle2 size={15} />
-                      : <AlertCircle size={15} />
-                    }
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+              <div className="space-y-3">
+                {checks.map(check => (
+                  <div key={check.label} className="flex items-start gap-3">
+                    <span className={`mt-0.5 ${check.ok ? 'text-ops-accent' : 'text-ops-muted'}`}>
+                      {check.ok ? <CheckCircle2 size={15} /> : <AlertCircle size={15} />}
+                    </span>
+                    <div className="flex-1 min-w-0">
                       <span className={`text-xs font-medium ${check.ok ? 'text-ops-text' : 'text-ops-muted'}`}>
                         {check.label}
                       </span>
+                      <p className="text-[10px] text-white/20 mt-0.5">{check.detail}</p>
                     </div>
-                    <p className="text-[10px] text-ops-border mt-0.5">{check.detail}</p>
-                  </div>
-                  <span className={`text-ops-muted shrink-0 mt-0.5 ${check.ok ? 'text-ops-accent' : ''}`}>
-                    {check.icon}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Groups summary */}
-          {groups.length > 0 && (
-            <div className="px-6 pb-4">
-              <p className="text-[10px] text-ops-muted uppercase tracking-wider mb-2">Crews</p>
-              <div className="flex flex-wrap gap-2">
-                {groups.map(g => (
-                  <div
-                    key={g.id}
-                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs"
-                    style={{ borderColor: g.color + '44', backgroundColor: g.color + '11', color: g.color }}
-                  >
-                    {g.emoji} {g.name}
-                    <span className="text-[10px] opacity-60">({g.members.length})</span>
+                    <span className={`shrink-0 mt-0.5 ${check.ok ? 'text-ops-accent' : 'text-ops-muted'}`}>
+                      {check.icon}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
-          )}
+
+            {/* Groups summary */}
+            {groups.length > 0 && (
+              <div className="px-5 sm:px-6 pb-4">
+                <p className="text-[10px] text-ops-muted uppercase tracking-wider mb-2">Crews</p>
+                <div className="flex flex-wrap gap-2">
+                  {groups.map(g => (
+                    <div
+                      key={g.id}
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs glass-card"
+                      style={{ borderColor: g.color + '33', backgroundColor: g.color + '0D', color: g.color }}
+                    >
+                      {g.emoji} {g.name}
+                      <span className="text-[10px] opacity-60">({g.members.length})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-ops-border bg-ops-bg/50">
+          <div className="px-5 sm:px-6 py-4 border-t border-white/[0.06] bg-white/[0.02] shrink-0">
             {allGreen ? (
               <p className="text-xs text-ops-accent text-center">
                 All systems go. Time to pack the bags. 🚀

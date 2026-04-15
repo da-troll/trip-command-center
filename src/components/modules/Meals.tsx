@@ -50,22 +50,20 @@ export function Meals() {
   const totalCost = meals.reduce((s, m) => s + (m.cost ?? 0), 0)
 
   return (
-    <div className="p-6 max-w-2xl">
-      <div className="flex items-center justify-between mb-6">
-        <div>
+    <div className="p-4 md:p-6 max-w-2xl">
+      <div className="flex items-center justify-between mb-6 gap-3">
+        <div className="min-w-0">
           <h2 className="text-base font-semibold text-ops-text mb-0.5">Meals</h2>
           <p className="text-xs text-ops-muted">Who's cooking what, and when.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           {totalCost > 0 && (
-            <span className="text-xs text-ops-muted">Food budget: <span className="text-ops-text">{fmtCurrency(totalCost)}</span></span>
+            <span className="text-xs text-ops-muted hidden sm:inline">Budget: <span className="text-ops-text">{fmtCurrency(totalCost)}</span></span>
           )}
-          <button
-            onClick={() => setAdding(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-ops-accent hover:bg-ops-accent-hover text-white text-xs font-medium rounded-md transition-colors"
-          >
+          <button onClick={() => setAdding(true)} className="glass-btn-accent flex items-center gap-1.5 !text-xs !py-1.5">
             <Plus size={13} />
-            Add Meal
+            <span className="hidden sm:inline">Add Meal</span>
+            <span className="sm:hidden">Add</span>
           </button>
         </div>
       </div>
@@ -79,7 +77,7 @@ export function Meals() {
           <div key={date} className="mb-5">
             <div className="flex items-center gap-3 mb-2">
               <p className="text-xs font-semibold text-ops-text">{fmtDate(date)}</p>
-              <div className="flex-1 h-px bg-ops-border" />
+              <div className="flex-1 h-px bg-white/[0.06]" />
             </div>
             <div className="space-y-2">
               {dayMeals.map(meal => (
@@ -100,8 +98,8 @@ export function Meals() {
       )}
 
       {adding && (
-        <div className="mt-4 border border-ops-accent/40 rounded-lg p-4 bg-ops-bg space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+        <div className="mt-4 glass-card p-4 space-y-3 border-ops-accent/30">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <p className="text-[10px] text-ops-muted mb-1">Date</p>
               <select className="input" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))}>
@@ -117,11 +115,9 @@ export function Meals() {
           </div>
           <input className="input" placeholder="Meal title" value={form.title ?? ''} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} />
           <textarea className="input resize-none h-16" placeholder="Notes (dietary needs, what to bring...)" value={form.notes ?? ''} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} />
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <p className="text-[10px] text-ops-muted mb-1">Estimated cost (optional)</p>
-              <input type="number" className="input" placeholder="0.00" value={form.cost ?? ''} onChange={e => setForm(f => ({ ...f, cost: e.target.value ? parseFloat(e.target.value) : undefined }))} />
-            </div>
+          <div>
+            <p className="text-[10px] text-ops-muted mb-1">Estimated cost (optional)</p>
+            <input type="number" className="input" placeholder="0.00" value={form.cost ?? ''} onChange={e => setForm(f => ({ ...f, cost: e.target.value ? parseFloat(e.target.value) : undefined }))} />
           </div>
           <div>
             <p className="text-[10px] text-ops-muted mb-1.5">Assigned to (leave empty = everyone)</p>
@@ -130,10 +126,10 @@ export function Meals() {
                 <button
                   key={g.id}
                   onClick={() => toggleGroup(g.id)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs transition-colors
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs transition-all
                     ${(form.assignedGroupIds ?? []).includes(g.id)
-                      ? 'border-ops-accent bg-ops-accent/10 text-ops-text'
-                      : 'border-ops-border text-ops-muted hover:text-ops-text'
+                      ? 'glass-card border-ops-accent/40 bg-ops-accent/10 text-ops-text'
+                      : 'glass-card text-ops-muted hover:text-ops-text'
                     }`}
                 >
                   {g.emoji} {g.name}
@@ -142,8 +138,8 @@ export function Meals() {
             </div>
           </div>
           <div className="flex gap-2">
-            <button onClick={saveMeal} className="px-3 py-1.5 bg-ops-accent hover:bg-ops-accent-hover text-white text-xs rounded-md transition-colors">Add Meal</button>
-            <button onClick={() => setAdding(false)} className="px-3 py-1.5 border border-ops-border text-ops-muted text-xs rounded-md hover:text-ops-text transition-colors">Cancel</button>
+            <button onClick={saveMeal} className="glass-btn-accent !text-xs">Add Meal</button>
+            <button onClick={() => setAdding(false)} className="glass-btn !text-xs text-ops-muted">Cancel</button>
           </div>
         </div>
       )}
@@ -157,8 +153,8 @@ function MealCard({ meal, groupMap, onDelete }: {
   onDelete: () => void
 }) {
   return (
-    <div className="group flex items-start gap-3 py-2.5 px-3 rounded-md hover:bg-ops-bg/50 border border-ops-border transition-all">
-      <span className="text-lg shrink-0">{MEAL_EMOJI[meal.mealType]}</span>
+    <div className="group flex items-start gap-2.5 sm:gap-3 py-2.5 px-3 rounded-lg glass-card-hover">
+      <span className="text-lg shrink-0 mt-0.5">{MEAL_EMOJI[meal.mealType]}</span>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-sm text-ops-text">{meal.title}</span>
@@ -173,11 +169,11 @@ function MealCard({ meal, groupMap, onDelete }: {
           </p>
         )}
         {meal.assignedGroupIds.length === 0 && (
-          <p className="text-xs text-ops-border mt-0.5 italic">Everyone pitches in</p>
+          <p className="text-xs text-white/15 mt-0.5 italic">Everyone pitches in</p>
         )}
         {meal.notes && <p className="text-xs text-ops-muted mt-0.5">{meal.notes}</p>}
       </div>
-      <button onClick={onDelete} className="opacity-0 group-hover:opacity-100 shrink-0 text-ops-muted hover:text-ops-danger transition-all">
+      <button onClick={onDelete} className="opacity-0 group-hover:opacity-100 shrink-0 text-ops-muted hover:text-ops-danger transition-all p-1">
         <Trash2 size={13} />
       </button>
     </div>

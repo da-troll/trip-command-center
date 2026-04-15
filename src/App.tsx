@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, createContext, useContext } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTrip } from './context'
 import { Header } from './components/Header'
@@ -12,10 +12,24 @@ import { Itinerary } from './components/modules/Itinerary'
 import { Meals } from './components/modules/Meals'
 import { Expenses } from './components/modules/Expenses'
 
+interface ShellCtx {
+  sidebarOpen: boolean
+  setSidebarOpen: (v: boolean) => void
+  chatOpen: boolean
+  setChatOpen: (v: boolean) => void
+}
+
+const ShellContext = createContext<ShellCtx>({
+  sidebarOpen: false, setSidebarOpen: () => {},
+  chatOpen: false, setChatOpen: () => {},
+})
+
+export function useShell() { return useContext(ShellContext) }
+
 const PANEL_VARIANTS = {
-  initial: { opacity: 0, x: 12 },
-  animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: -8 },
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -4 },
 }
 
 function ModulePanel() {
@@ -54,20 +68,23 @@ function ModulePanel() {
 
 export default function App() {
   const { state } = useTrip()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [chatOpen, setChatOpen] = useState(false)
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
-      <Header />
-      <div className="flex flex-1 min-h-0">
-        <Sidebar />
-        <ModulePanel />
-        <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} />
+    <ShellContext.Provider value={{ sidebarOpen, setSidebarOpen, chatOpen, setChatOpen }}>
+      <div className="h-screen flex flex-col overflow-hidden">
+        <Header />
+        <div className="flex flex-1 min-h-0 relative">
+          <Sidebar />
+          <ModulePanel />
+          <ChatPanel />
+        </div>
+        <ChatToggle />
+        <AnimatePresence>
+          {state.activeModule === 'launch' && <MissionLaunch />}
+        </AnimatePresence>
       </div>
-      <ChatToggle open={chatOpen} onToggle={() => setChatOpen(p => !p)} />
-      <AnimatePresence>
-        {state.activeModule === 'launch' && <MissionLaunch />}
-      </AnimatePresence>
-    </div>
+    </ShellContext.Provider>
   )
 }

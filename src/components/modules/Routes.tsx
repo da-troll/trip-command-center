@@ -4,7 +4,6 @@ import L from 'leaflet'
 import { useTrip } from '../../context'
 import type { Route } from '../../types'
 
-// Fix Leaflet default icon issue with Vite by using custom SVG DivIcons
 function makeIcon(color: string) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
     <path d="M12 0C5.373 0 0 5.373 0 12c0 9 12 20 12 20s12-11 12-20C24 5.373 18.627 0 12 0z" fill="${color}" stroke="#0A0C10" stroke-width="1.5"/>
@@ -33,7 +32,6 @@ function DestinationIcon() {
   })
 }
 
-// Component to auto-fit map bounds
 function BoundsAdjuster({ routes }: { routes: Route[] }) {
   const map = useMap()
   const fitted = useRef(false)
@@ -58,13 +56,13 @@ export function Routes() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-6 pb-3 shrink-0">
+      <div className="p-4 md:p-6 pb-3 shrink-0">
         <h2 className="text-base font-semibold text-ops-text mb-0.5">Routes</h2>
         <p className="text-xs text-ops-muted">Convergence map — all crews on one view.</p>
       </div>
 
       {/* Legend */}
-      <div className="px-6 pb-3 flex flex-wrap gap-3 shrink-0">
+      <div className="px-4 md:px-6 pb-3 flex flex-wrap gap-x-4 gap-y-1.5 shrink-0">
         {routes.map(route => {
           const group = groupMap[route.groupId]
           return (
@@ -72,7 +70,7 @@ export function Routes() {
               <div className="w-5 h-0.5 rounded-full" style={{ backgroundColor: route.color }} />
               <span className="text-xs text-ops-muted">{group?.emoji} {route.label}</span>
               {route.departureTime && (
-                <span className="text-[10px] text-ops-border">
+                <span className="text-[10px] text-white/15 hidden sm:inline">
                   departs {new Date(route.departureTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                 </span>
               )}
@@ -82,7 +80,7 @@ export function Routes() {
       </div>
 
       {/* Map */}
-      <div className="flex-1 mx-6 mb-6 rounded-lg overflow-hidden border border-ops-border min-h-0" style={{ minHeight: 400 }}>
+      <div className="flex-1 mx-4 md:mx-6 mb-4 md:mb-6 rounded-xl overflow-hidden glass-card min-h-0" style={{ minHeight: 'min(400px, 55vh)' }}>
         <MapContainer
           center={[38.5, -119.5]}
           zoom={6}

@@ -43,16 +43,13 @@ export function Groups() {
   }
 
   return (
-    <div className="p-6 max-w-2xl">
+    <div className="p-4 md:p-6 max-w-2xl">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-base font-semibold text-ops-text mb-0.5">Groups</h2>
           <p className="text-xs text-ops-muted">Crews joining from different origins.</p>
         </div>
-        <button
-          onClick={() => setAdding(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-ops-accent hover:bg-ops-accent-hover text-white text-xs font-medium rounded-md transition-colors"
-        >
+        <button onClick={() => setAdding(true)} className="glass-btn-accent flex items-center gap-1.5 !text-xs !py-1.5">
           <Plus size={13} />
           Add Group
         </button>
@@ -70,35 +67,35 @@ export function Groups() {
         ))}
 
         {adding && (
-          <div className="border border-ops-accent/50 rounded-lg p-4 bg-ops-bg space-y-3">
+          <div className="glass-card p-4 space-y-4 border-ops-accent/30">
             <p className="text-xs font-medium text-ops-text">New Group</p>
 
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-4">
               <div>
-                <p className="text-[10px] text-ops-muted mb-1">Emoji</p>
-                <div className="flex flex-wrap gap-1 w-40">
+                <p className="text-[10px] text-ops-muted mb-1.5">Emoji</p>
+                <div className="flex flex-wrap gap-1.5">
                   {EMOJIS.map(e => (
                     <button
                       key={e}
                       onClick={() => setNewGroup(g => ({ ...g, emoji: e }))}
-                      className={`w-7 h-7 text-sm rounded border transition-colors
-                        ${newGroup.emoji === e ? 'border-ops-accent bg-ops-accent/10' : 'border-ops-border hover:border-ops-muted'}`}
+                      className={`w-9 h-9 text-sm rounded-lg transition-all
+                        ${newGroup.emoji === e ? 'glass-card border-ops-accent/40 bg-ops-accent/10' : 'glass-card hover:bg-white/[0.06]'}`}
                     >
                       {e}
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="flex-1">
-                <p className="text-[10px] text-ops-muted mb-1">Color</p>
-                <div className="flex flex-wrap gap-1.5">
+              <div>
+                <p className="text-[10px] text-ops-muted mb-1.5">Color</p>
+                <div className="flex flex-wrap gap-2">
                   {COLORS.map(c => (
                     <button
                       key={c}
                       onClick={() => setNewGroup(g => ({ ...g, color: c }))}
                       style={{ backgroundColor: c }}
-                      className={`w-6 h-6 rounded-full border-2 transition-all
-                        ${newGroup.color === c ? 'border-white scale-110' : 'border-transparent'}`}
+                      className={`w-8 h-8 rounded-full border-2 transition-all
+                        ${newGroup.color === c ? 'border-white scale-110' : 'border-transparent opacity-60 hover:opacity-100'}`}
                     />
                   ))}
                 </div>
@@ -119,7 +116,7 @@ export function Groups() {
             />
 
             <div>
-              <p className="text-[10px] text-ops-muted mb-1">Members</p>
+              <p className="text-[10px] text-ops-muted mb-1.5">Members</p>
               <div className="flex gap-2 mb-2">
                 <input
                   className="input flex-1"
@@ -128,14 +125,14 @@ export function Groups() {
                   onChange={e => setMemberInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && addMember()}
                 />
-                <button onClick={addMember} className="px-3 py-1.5 bg-ops-surface border border-ops-border rounded text-xs text-ops-muted hover:text-ops-text transition-colors">Add</button>
+                <button onClick={addMember} className="glass-btn !text-xs">Add</button>
               </div>
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-1.5">
                 {(newGroup.members ?? []).map(m => (
                   <span
                     key={m}
                     onClick={() => setNewGroup(g => ({ ...g, members: (g.members ?? []).filter(x => x !== m) }))}
-                    className="text-xs px-2 py-0.5 bg-ops-surface border border-ops-border rounded-full text-ops-text cursor-pointer hover:border-ops-danger hover:text-ops-danger transition-colors"
+                    className="glass-pill text-ops-text cursor-pointer hover:border-ops-danger/40 hover:text-ops-danger transition-colors"
                   >
                     {m} ×
                   </span>
@@ -144,8 +141,8 @@ export function Groups() {
             </div>
 
             <div className="flex gap-2">
-              <button onClick={saveGroup} className="px-3 py-1.5 bg-ops-accent hover:bg-ops-accent-hover text-white text-xs rounded-md transition-colors">Save</button>
-              <button onClick={() => setAdding(false)} className="px-3 py-1.5 border border-ops-border text-ops-muted text-xs rounded-md hover:text-ops-text transition-colors">Cancel</button>
+              <button onClick={saveGroup} className="glass-btn-accent !text-xs">Save</button>
+              <button onClick={() => setAdding(false)} className="glass-btn !text-xs text-ops-muted">Cancel</button>
             </div>
           </div>
         )}
@@ -165,14 +162,14 @@ function GroupCard({ group, expanded, onToggle, onDelete }: {
   onDelete: () => void
 }) {
   return (
-    <div className="border border-ops-border rounded-lg overflow-hidden">
+    <div className="glass-card overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-ops-bg/50 transition-colors text-left"
+        className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-white/[0.03] transition-colors text-left"
       >
         <span
-          className="w-8 h-8 rounded-full flex items-center justify-center text-lg shrink-0"
-          style={{ backgroundColor: group.color + '22', border: `1px solid ${group.color}44` }}
+          className="w-9 h-9 rounded-full flex items-center justify-center text-lg shrink-0"
+          style={{ backgroundColor: group.color + '18', border: `1px solid ${group.color}33` }}
         >
           {group.emoji}
         </span>
@@ -182,20 +179,15 @@ function GroupCard({ group, expanded, onToggle, onDelete }: {
             {group.origin && <span> · {group.origin}</span>}
           </p>
         </div>
-        <div
-          className="w-2 h-2 rounded-full shrink-0"
-          style={{ backgroundColor: group.color }}
-        />
+        <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: group.color }} />
         {expanded ? <ChevronUp size={14} className="text-ops-muted" /> : <ChevronDown size={14} className="text-ops-muted" />}
       </button>
 
       {expanded && (
-        <div className="px-4 pb-4 border-t border-ops-border bg-ops-bg/30">
+        <div className="px-4 pb-4 border-t border-white/[0.06] bg-white/[0.02]">
           <div className="pt-3 flex flex-wrap gap-1.5 mb-3">
             {group.members.map(m => (
-              <span key={m} className="text-xs px-2 py-0.5 rounded-full bg-ops-surface border border-ops-border text-ops-text">
-                {m}
-              </span>
+              <span key={m} className="glass-pill text-ops-text">{m}</span>
             ))}
             {group.members.length === 0 && <span className="text-xs text-ops-muted italic">No members added</span>}
           </div>

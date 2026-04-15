@@ -13,28 +13,69 @@
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #30363D;
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #8B949E;
+    background: rgba(255, 255, 255, 0.15);
   }
 }
 
 @layer components {
+  .glass {
+    @apply bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] shadow-lg shadow-black/20;
+  }
+
+  .glass-heavy {
+    @apply bg-white/[0.06] backdrop-blur-2xl border border-white/[0.10] shadow-xl shadow-black/30;
+  }
+
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-lg border border-white/[0.07] rounded-xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-200 hover:bg-white/[0.06] hover:border-white/[0.12] hover:shadow-lg hover:shadow-black/20;
+  }
+
+  .glass-input {
+    @apply w-full bg-white/[0.05] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-ops-text
+      placeholder:text-white/20 focus:outline-none focus:border-ops-accent/60 focus:bg-white/[0.07]
+      transition-all duration-200;
+  }
+
   .input {
-    @apply w-full bg-ops-bg border border-ops-border rounded-md px-3 py-2 text-sm text-ops-text
-      placeholder:text-ops-border focus:outline-none focus:border-ops-accent transition-colors;
+    @apply glass-input;
   }
 
   select.input {
     @apply appearance-none;
+  }
+
+  .glass-pill {
+    @apply px-2 py-0.5 rounded-full text-[10px] bg-white/[0.06] border border-white/[0.08] backdrop-blur-sm;
+  }
+
+  .glass-btn {
+    @apply px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
+      bg-white/[0.06] border border-white/[0.10] backdrop-blur-sm
+      hover:bg-white/[0.10] hover:border-white/[0.15];
+  }
+
+  .glass-btn-accent {
+    @apply px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
+      bg-ops-accent/80 border border-ops-accent/40 backdrop-blur-sm text-white
+      hover:bg-ops-accent hover:border-ops-accent/60 hover:shadow-md hover:shadow-ops-accent/20;
+  }
+
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
   }
 }

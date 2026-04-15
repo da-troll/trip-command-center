@@ -21,6 +21,9 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['Geist Mono', 'monospace'],
       },
+      backdropBlur: {
+        '3xl': '64px',
+      },
     },
   },
   plugins: [],
