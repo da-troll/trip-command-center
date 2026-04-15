@@ -73,7 +73,7 @@ export default function App() {
 
   return (
     <ShellContext.Provider value={{ sidebarOpen, setSidebarOpen, chatOpen, setChatOpen }}>
-      <div className="h-screen flex flex-col overflow-hidden">
+      <div className="h-[100dvh] flex flex-col overflow-hidden">
         <Header />
         <div className="flex flex-1 min-h-0 relative">
           <Sidebar />

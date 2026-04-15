@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  html, body, #root {
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
   body {
     @apply bg-ops-bg text-ops-text font-sans;
     -webkit-font-smoothing: antialiased;

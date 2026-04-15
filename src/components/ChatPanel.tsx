@@ -122,7 +122,7 @@ export function ChatPanel() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-0 md:relative md:inset-auto md:w-96 glass-heavy border-l border-white/[0.06] flex flex-col z-50 md:z-auto md:shrink-0"
+            className="fixed top-0 left-0 right-0 h-[100dvh] md:relative md:inset-auto md:h-auto md:w-96 glass-heavy border-l border-white/[0.06] flex flex-col z-50 md:z-auto md:shrink-0"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] shrink-0">
