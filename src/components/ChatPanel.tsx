@@ -209,12 +209,21 @@ export function ChatPanel() {
                     </div>
 
                     {msg.actions && msg.actions.length > 0 && !msg.pending && (
-                      <div className="flex flex-wrap gap-1.5 mt-2">
-                        {msg.actions.map((a, i) => (
-                          <span key={i} className="text-xs px-2.5 py-1 rounded-lg bg-ops-accent/10 text-ops-accent border border-ops-accent/20 backdrop-blur-sm">
-                            {formatActionType(a.type)}
+                      <div className="mt-2">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-ops-accent animate-pulse" />
+                          <span className="text-[11px] text-ops-accent font-medium">
+                            {msg.actions.length} change{msg.actions.length !== 1 ? 's' : ''} applied
                           </span>
-                        ))}
+                          <span className="text-[10px] text-ops-muted">— check the sidebar to see them</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {msg.actions.map((a, i) => (
+                            <span key={i} className="text-xs px-2.5 py-1 rounded-lg bg-ops-accent/10 text-ops-accent border border-ops-accent/20 backdrop-blur-sm">
+                              {formatActionType(a.type)}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>

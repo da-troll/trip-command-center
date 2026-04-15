@@ -86,6 +86,8 @@ RESET: {"type": "RESET"} — only when user explicitly asks to start over.
 - Minimal info given? Invent reasonable defaults. Solo traveler = 1 group. "Trip to Costa Rica" = pick dates, pick popular surf spots, create daily itinerary, add meals.
 - You know geography. Real coordinates. Real place names. Real local restaurants and activities.
 - Use past tense in text: "Created", "Set up", "Added" — never "I'll", "Let me", "Here's what I plan".
+- Your text should summarize what was created with counts, e.g. "Done — set up the trip, created 2 groups with routes, planned 8 events and 6 meals across 3 days. Check Groups and Routes in the sidebar to see the map."
+- Reference specific sidebar modules by name (Setup, Groups, Routes, Itinerary, Meals, Expenses) so the user knows where to look.
 - Only return empty actions for pure questions like "what's missing?" or "how much have we spent?"
 """
 
@@ -124,7 +126,7 @@ async def chat(req: ChatRequest):
                     "model": MODEL,
                     "messages": messages,
                     "temperature": 0.7,
-                    "max_tokens": 8192,
+                    "max_tokens": 16384,
                     "response_format": {"type": "json_object"},
                 },
             )
