@@ -194,9 +194,9 @@ export function ChatPanel() {
                     </div>
 
                     {msg.actions && msg.actions.length > 0 && !msg.pending && (
-                      <div className="flex flex-wrap gap-1 mt-1.5">
+                      <div className="flex flex-wrap gap-1.5 mt-2">
                         {msg.actions.map((a, i) => (
-                          <span key={i} className="glass-pill text-ops-accent border-ops-accent/20">
+                          <span key={i} className="text-xs px-2.5 py-1 rounded-lg bg-ops-accent/10 text-ops-accent border border-ops-accent/20 backdrop-blur-sm">
                             {formatActionType(a.type)}
                           </span>
                         ))}
