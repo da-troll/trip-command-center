@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-ops-bg text-ops-text font-sans;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #30363D;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8B949E;
+  }
+}
+
+@layer components {
+  .input {
+    @apply w-full bg-ops-bg border border-ops-border rounded-md px-3 py-2 text-sm text-ops-text
+      placeholder:text-ops-border focus:outline-none focus:border-ops-accent transition-colors;
+  }
+
+  select.input {
+    @apply appearance-none;
+  }
+}
