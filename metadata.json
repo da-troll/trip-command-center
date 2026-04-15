@@ -1,0 +1,29 @@
+{
+  "inspired_by": "andrewjiang/palantir-for-family-trips",
+  "project_name": "Trip Command Center",
+  "description": "Palantir Foundry-style trip planning dashboard — coordinate multi-group trips with convergence maps, itinerary timelines, meal assignments, and expense settlement.",
+  "tech_stack": [
+    "React",
+    "TypeScript",
+    "Vite",
+    "Tailwind CSS",
+    "Leaflet",
+    "Framer Motion"
+  ],
+  "build_date": "2026-04-15",
+  "build_time_hours": 1.5,
+  "status": "complete",
+  "features": [
+    "Trip setup with emoji cover, dates, destination",
+    "Multi-group management with color coding and member lists",
+    "Convergence map showing all groups' routes with dashed polylines (Leaflet + CartoDB dark tiles)",
+    "Day-by-day itinerary with event types, time slots, and locations",
+    "Meal planner with group assignments and cost tracking",
+    "Expense tracker with per-group settlement calculation (who owes who)",
+    "Mission Launch overlay with readiness checklist",
+    "Seed data: Alpine Ridge Weekend trip (SF/LA/Vegas crews)",
+    "localStorage persistence across sessions"
+  ],
+  "live_url": "https://mvp.trollefsen.com/2026-04-15-trip-command-center/",
+  "github_url": "https://github.com/da-troll/trip-command-center"
+}
